@@ -1,6 +1,6 @@
 # 📝 Post-Comment Service (Go + Gin + MongoDB)
 
-A simple backend service built using **Go**, **Gin**, and **MongoDB** that allows users to create text-based posts and comment on them. Comments are stored as posts with a `thread` field referencing their parent post.
+A simple backend service built using **Go**, **Gin**, and **MongoDB** that allows users to create **Markdown-supported rich text posts** and comment on them. Comments are stored as posts with a `thread` field referencing their parent post.
 
 ---
 

@@ -5,10 +5,12 @@ import (
 
 	"github.com/Dhanraj-Patil/post-comment-go/platform/model"
 	"github.com/Dhanraj-Patil/post-comment-go/platform/repository"
+	"github.com/gomarkdown/markdown"
 )
 
 func SavePost(post model.Post) error {
 	post.CreateAt = time.Now()
+	post.PostData = string(markdown.ToHTML([]byte(post.PostData), nil, nil))
 	if err := repository.Save(post); err != nil {
 		return err
 	}
