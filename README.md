@@ -37,7 +37,7 @@ Install Dependencies and run the project.
 
 ```bash
 go mod tidy
-go run ./cmd/main.go
+go run ./cmd .
 ```
 
 To see and test API's visit http://localhost:8080/swagger/index.html .
