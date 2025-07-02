@@ -1,0 +1,128 @@
+definitions:
+  model.Post:
+    properties:
+      createAt:
+        type: string
+      id:
+        type: string
+      post_data:
+        type: string
+      thread:
+        type: string
+    type: object
+  model.PostRequest:
+    properties:
+      post_data:
+        type: string
+      thread:
+        type: string
+    type: object
+  model.Thread:
+    properties:
+      comments:
+        items:
+          $ref: '#/definitions/model.Post'
+        type: array
+      post:
+        $ref: '#/definitions/model.Post'
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Post-Comment-Service for CloudSEK Backend Intern Assignment.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: CloudSEK - Post-Comment-Service
+  version: "1.0"
+paths:
+  /post:
+    post:
+      consumes:
+      - application/json
+      description: 'Submits a new top-level post or comment (if thread is set). Warning:
+        Set thread to "" if creating new post, else put post id as thread if is a
+        comment.'
+      parameters:
+      - description: Post Body
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/model.PostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new post
+      tags:
+      - posts
+  /post/{id}:
+    get:
+      description: Returns a post and all its comment posts (where thread == post
+        ID)
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Thread'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get post with comments
+      tags:
+      - threads
+  /posts:
+    get:
+      description: Retrieves all posts where thread is empty (i.e., original posts)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Post'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all top-level posts
+      tags:
+      - posts
+swagger: "2.0"
